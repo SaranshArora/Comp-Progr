@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main ()
+{
+    int W= 50;
+    float weight[3]={20,30,10};
+    float value[3]={100,120,60};
+    float x [3] = {0,0,0};//solution vector 
+    float prior[3]={1,1,1};
+    //////////////////////////////////////////////////
+for ( int i =0; i < 3; i++ ) 
+{
+    prior[i]=value[i] / weight[i];
+    //cout<<prior[i]<<endl; 
+}
+//////////////////////////////////////////////////////////
+  for ( int i =0; i < 3; i++ ){
+      for ( int j =1; j < 3; j++ ){
+          if (prior[j] > prior[j-1] )
+          {
+              int temp = prior[j] ;
+              prior[j]=prior[j-1];
+             prior[j-1]=temp;
+             
+             int temp1 = value[j] ;
+              value[j]=value[j-1];
+             value[j-1]=temp1;
+             
+             int temp2 = weight[j] ;
+              weight[j]=weight[j-1];
+             weight[j-1]=temp2;
+             
+          }
+      }
+      }
+////////////////////////////////////////////////////////////
+for ( int i =0; i < 3; i++ ) 
+{
+    cout<<prior[i]<<" with weight "<<weight[i]<<" and value "<<value[i]<<endl; 
+}
+///////////////////////////////////////////////////////////
+int wt=0;
+int ind = 0 ;
+while (wt < W)
+{
+   int i = ind++;
+   if (wt + weight[i]<=W )
+   {
+       x[i]=1;
+       wt=wt+weight[i];
+   }
+   else
+   {
+       x[i]=(W-wt)/weight[i];
+       cout<<x[i]<<endl;
+       
+       wt = W;
+   }
+   }
+  //////////////////////////////////////////////////////
+  float profit=0;
+  for ( int i =0; i < 3; i++ ) 
+{
+    cout<<prior[i]<<" with weight "<<weight[i]<<" and value "<<value[i]<<"is considered in this proportion: "<<x[i]<<endl; 
+    profit=profit+x[i]*value[i];
+}
+////////////////////////////
+cout<<"Final profit is: "<<profit<<endl;
+}
